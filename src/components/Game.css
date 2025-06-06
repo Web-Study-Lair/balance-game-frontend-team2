@@ -1,0 +1,56 @@
+.game-container {
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .question-title {
+    margin-bottom: 30px;
+  }
+  
+  .image-options {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .option {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  .option:hover {
+    transform: scale(1.05);
+  }
+  
+  .option img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+  }
+  
+  .option-text {
+    position: absolute;
+    bottom: 0; /* 꼭대기가 아닌 하단에 붙게 */
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.6); /* 어두운 반투명 배경 */
+    text-align: center;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+  .result {
+    margin-top: 30px;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+  
