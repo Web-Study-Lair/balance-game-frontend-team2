@@ -1,15 +1,16 @@
-.header {
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #333;
     padding: 16px 32px;
-    color: white;
+    
   }
   
   .header-left h1 {
     margin: 0;
     font-size: 1.8rem;
+    color: white;
   }
   
   .header-right {
