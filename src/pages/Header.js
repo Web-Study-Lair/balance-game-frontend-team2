@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Modal from './Modal';
+import Modal from '../components/Modal';
 import './Header.css';
-import AddGame from './AddGame';
+import AddGame from '../components/AddGame';
       
 
 function Header() {

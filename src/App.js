@@ -1,8 +1,8 @@
 import './App.css';
 import React from 'react';
-import Header from './components/Header';
-import Game from './components/Game';
-import Footer from './components/Footer';
+import Header from './pages/Header';
+import Game from './pages/Game';
+import Footer from './pages/Footer';
 
 function App() {
   return (
