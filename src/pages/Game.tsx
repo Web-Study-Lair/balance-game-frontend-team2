@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Game.css'; // 스타일 분리 추천
+import '../styles/Game.css'; // 스타일 분리 추천
 
 function Game() {
   const [choice, setChoice] = useState('');
@@ -16,7 +16,19 @@ function Game() {
     },
   };
 
-  const handleChoice = (option) => {
+  type Question = {
+    title?: string;
+    option1: {
+      text: string,
+      img?: string, // public 폴더 내 이미지 경로
+    },
+    option2: {
+      text: string,
+      img?: string,
+    }
+  }
+
+  const handleChoice = (option: Question['option1'] | Question['option2']) => {
     setChoice(option.text);
   };
 

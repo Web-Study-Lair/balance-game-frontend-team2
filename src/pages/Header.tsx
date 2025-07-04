@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Modal from '../components/Modal';
-import './Header.css';
+import '../styles/Header.css';
 import AddGame from '../components/AddGame';
       
 

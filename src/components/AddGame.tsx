@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import './AddGame.css';
+import '../styles/AddGame.css';
 
 
-function AddGame({changeState}) {
+function AddGame({changeState}: {changeState:() => void}) {
+  
   const [formData, setFormData] = useState({
     title: '',
     option1Text: '',
@@ -12,8 +13,9 @@ function AddGame({changeState}) {
     option2Img: null,
     option2ImgPreview: null,
   });
-  
-  const handleChange = (e) => {
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -21,8 +23,11 @@ function AddGame({changeState}) {
     }));
   };
   
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
+
+    if(!files||files.length===0)return;
+
     const file = files[0];
     const previewURL = file ? URL.createObjectURL(file) : null;
     console.log(name, file)
@@ -39,7 +44,7 @@ function AddGame({changeState}) {
        <form className="game-form" onSubmit={(e) => {
          e.preventDefault();
          console.log(formData);
-         changeState(e.target.value);
+         changeState();
        }}>
          {/* 질문 */}
          <input
@@ -55,11 +60,11 @@ function AddGame({changeState}) {
          {/* 이미지 미리보기 */}
          <div className="image-row">
            <div className="image-preview">
-             {formData.option1Img ? <img src={formData.option1ImgPreview} alt="Option 1" /> : null}
+             {formData.option1Img ? <img src={formData.option1ImgPreview!} alt="Option 1" /> : null}
              <input type="file" name="option1Img" accept="image/*" onChange={handleImageChange} />
            </div>
            <div className="image-preview">
-             {formData.option2Img ? <img src={formData.option2ImgPreview} alt="Option 2" /> : null}
+             {formData.option2Img ? <img src={formData.option2ImgPreview!} alt="Option 2" /> : null}
              <input type="file" name="option2Img" accept="image/*" onChange={handleImageChange} />
            </div>
          </div>
@@ -86,7 +91,9 @@ function AddGame({changeState}) {
      
          <button type="submit">게임 저장</button>
        </form>
-       </div>       
+       </div>     
+       
+       
   );
 }
 
