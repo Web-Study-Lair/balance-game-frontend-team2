@@ -67,7 +67,7 @@
   }
   
   /* 제출 버튼 */
-  .game-form button[type="submit"] {
+  .game-form button/*[type="submit"]*/ {
     margin-top: 12px;
     padding: 10px;
     background-color: #333;
