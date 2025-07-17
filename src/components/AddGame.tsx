@@ -32,24 +32,56 @@ function AddGame({ changeState }: { changeState: () => void }) {
       [`${name}Preview`]: previewURL,
     }));
   };
+  
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
 
   const handleSave = async () => {
-    console.log('전송 데이터:', formData);
-    const data = new FormData();
-    data.append('title', formData.title);
-    data.append('option1Text', formData.option1Text);
-    data.append('option2Text', formData.option2Text);
-    if (formData.option1Img) data.append('option1Img', formData.option1Img);
-    if (formData.option2Img) data.append('option2Img', formData.option2Img);
-  
-    /*try {
-      const response = await axios.post('/api/your-endpoint', data);
+    
+    try {
+      const option1ImgBase64 = formData.option1Img
+        ? await fileToBase64(formData.option1Img)
+        : '';
+      const option2ImgBase64 = formData.option2Img
+        ? await fileToBase64(formData.option2Img)
+        : '';
+
+      const data = {
+        user:{
+          userId: 5, 
+        },
+        game: {
+          title: formData.title,
+          selectOption1: {
+            text: formData.option1Text,
+            img: option1ImgBase64,
+          },
+          selectOption2: {
+            text: formData.option2Text,
+            img: option2ImgBase64,
+          },
+        },
+      };
+      
+      const response = await axios.post('http://localhost:3000/game', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          },
+        });
+
       console.log('업로드 성공:', response.data);
+      //console.log('전송 데이터:', formData);
       changeState(); // 성공 후 UI 전환
     } catch (error) {
       console.error('업로드 실패:', error);
-    }*/
-    changeState();
+      //console.log('전송 데이터:', formData);
+    }
   };
 
   return (
