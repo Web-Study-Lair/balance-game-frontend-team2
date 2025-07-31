@@ -43,7 +43,12 @@ function AddGame({ changeState }: { changeState: () => void }) {
   };
 
   const handleSave = async () => {
-    
+
+    if (!formData.title.trim() || !formData.option1Text.trim() || !formData.option2Text.trim()) {
+      alert('모든 항목을 입력해주세요: 제목, 항목 1, 항목 2');
+      return;
+    }
+
     try {
       const option1ImgBase64 = formData.option1Img
         ? await fileToBase64(formData.option1Img)
@@ -58,14 +63,16 @@ function AddGame({ changeState }: { changeState: () => void }) {
         },
         game: {
           title: formData.title,
-          selectOption1: {
+          selectOption: [
+            {
             text: formData.option1Text,
-            img: option1ImgBase64,
+            img: option1ImgBase64,          
           },
-          selectOption2: {
+          {
             text: formData.option2Text,
             img: option2ImgBase64,
           },
+        ]
         },
       };
       
@@ -76,7 +83,7 @@ function AddGame({ changeState }: { changeState: () => void }) {
         });
 
       console.log('업로드 성공:', response.data);
-      //console.log('전송 데이터:', formData);
+      console.log('전송 데이터:', formData);
       changeState(); // 성공 후 UI 전환
     } catch (error) {
       console.error('업로드 실패:', error);
