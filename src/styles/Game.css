@@ -48,9 +48,26 @@
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
   }
-  .result {
-    margin-top: 30px;
-    font-size: 1.3rem;
-    font-weight: bold;
-  }
-  
+
+  .next-game {
+  display: flex;
+  align-items: center; /* 세로 중앙정렬 */  
+  justify-content: center; /* 가로 중앙 정렬 */
+  gap: 30px; /* 요소 사이 간격 */
+  margin-top: 30px; /* 위쪽 여백 */
+}
+
+.result {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.next-game-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
