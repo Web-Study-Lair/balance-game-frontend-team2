@@ -11,7 +11,8 @@ function Game() {
   const [recentIds, setRecentIds] = useState<number[]>([]);
   const recentIdsRef = useRef<number[]>([]);           // 최신 recentIds를 보관
   const RECENT_WINDOW = 3; // 최근 게임 ID 개수 제한
-
+  const [gamePlayed, setGamePlayed] = useState(false); // 게임이 플레이되었는지 여부
+  
   // state가 바뀔 때 ref도 동기화
   useEffect(() => {
     recentIdsRef.current = recentIds;
@@ -31,6 +32,7 @@ function Game() {
       const picked = pool[Math.floor(Math.random() * pool.length)];
       setGame(picked);
       setChoice(''); // 다음 게임 때 선택 초기화
+      setGamePlayed(false); // 게임이 플레이되지 않았음을 초기화
 
       setRecentIds(prev => {
         const next = [...prev, picked.gameId];
@@ -46,7 +48,33 @@ function Game() {
     fetchGame();
   }, [fetchGame]);
 
-  const handleChoice = (option: selectOption) => setChoice(option.text);
+  const handleChoice = (option: selectOption, index: number) => {
+    
+    setChoice(option.text);
+    setGamePlayed(true); // 게임이 플레이되었음을 표시
+    option.count = (option.count ?? 0) + 1; // 선택 횟수 증가
+    console.log(`게임id: ${game?.gameId}, 선택된 옵션: ${index}, 선택 횟수: ${option.count}`);
+    const data = {
+      gameId: game?.gameId,         
+      selectOption: index,         
+      count: option.count
+      };
+    
+      axios.patch('http://localhost:3000/game/', data,{
+      	headers: {
+          'Content-Type': 'application/json',
+          },
+        });
+    // console.log('선택 결과 전송 성공:', response.data);
+
+    // 선택 결과를 서버에 보내는 기능이 있다면 여기에 추가
+  }
+  const getPercent = (count: number) => {
+    if (!game || game.selectOption.length === 0) return 0;
+    const total = game.selectOption.reduce((sum, opt) => sum + (opt.count ?? 0), 0);
+    return total > 0 ? Math.round((count / total) * 100) : 0;
+  };
+
 
   if (!game) return <div>로딩 중...</div>;
 
@@ -54,17 +82,37 @@ function Game() {
     <div className="game-container">
       <h2 className="question-title">{game.title}</h2>
       <div className="image-options">
+        
         {game.selectOption.map((opt, i) => (
-          <div className="option" key={i} onClick={() => handleChoice(opt)}>
+          <div
+            className={gamePlayed ? 'option-played' : 'option'}
+            key={i}
+            onClick={!gamePlayed ? () => handleChoice(opt, i) : undefined}
+            style={{ cursor: !gamePlayed ? 'pointer' : 'default' }}
+          >
             {opt.img && <img src={opt.img} alt={`Option ${i + 1}`} />}
             <div className="option-text">{opt.text}</div>
           </div>
         ))}
+        
       </div>
+      
+      <div className="ratio">            
+        {gamePlayed && 
+        game.selectOption.map((opt, i) => (
+        <p className="result" key={i}> 
+        {opt.text} 고른 비율: {getPercent(opt.count ?? 0)}%
+        </p> 
+        ))}
+        
+        {/*gamePlayed && <p className="result"> {game.selectOption[1].text}고른 비율 : {100 * (game.selectOption[1].count / (game.selectOption[0].count + game.selectOption[1].count))}%</p>*/} 
+        {/* 비율 = (옵션 선택횟수 / 전체 선택횟수) */}
+        </div>
+
 
       <div className="next-game">
-        {choice && <p className="result">당신의 선택: {choice}</p>}
-        {choice && (
+        {gamePlayed && <p className="result">당신의 선택: {choice}</p>}
+        {gamePlayed && (
           <button className="next-game-btn" onClick={fetchGame}>
             다음 게임
           </button>

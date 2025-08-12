@@ -21,6 +21,13 @@
     overflow: hidden;
   }
   
+  .option-played{
+    position: relative;
+    width: 300px;
+    height: 300px;
+    cursor: pointer;
+    overflow: hidden;
+  }
   .option:hover {
     transform: scale(1.05);
   }
@@ -55,6 +62,16 @@
   justify-content: center; /* 가로 중앙 정렬 */
   gap: 30px; /* 요소 사이 간격 */
   margin-top: 30px; /* 위쪽 여백 */
+}
+
+.ratio{
+  display: flex;
+  align-items: center; /* 세로 중앙정렬 */  
+  justify-content: center; /* 가로 중앙 정렬 */
+  gap: 30px; /* 요소 사이 간격 */
+  margin-top: 30px; /* 위쪽 여백 */
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 .result {
