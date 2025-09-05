@@ -59,10 +59,10 @@ function AddGame({ changeState }: { changeState: () => void }) {
 
       // 이미지 파일 2개 전송 (selectOption 순서에 맞게)
       if (formData.option1Img) {
-        fd.append('images', formData.option1Img);
+        fd.append('imgs', formData.option1Img);
       }
       if (formData.option2Img) {
-        fd.append('images', formData.option2Img);
+        fd.append('imgs', formData.option2Img);
       }
 
       const response = await axios.post('http://localhost:3000/game', fd, {
